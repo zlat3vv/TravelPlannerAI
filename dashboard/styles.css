@@ -1,0 +1,148 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    text-align: center;
+}
+
+/* Centering sections */
+.location-options, .date-options, .budget-options-container, .people-options-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Input styles */
+input[type="text"], input[type="date"], select {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 10px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"]:focus, input[type="date"]:focus, select:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+}
+
+/* Budget and People Options Containers */
+.budget-options, .people-options {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 10px;
+}
+
+/* Individual Option Styles */
+.budget-option:checked, .people-option:checked {
+    text-align: center;
+    border: 2px solid black;
+    
+    padding: 15px;
+    width: 30%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.budget-option:hover, .people-option:hover {
+    background-color: #f0f8ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Hide radio buttons */
+.budget-option input[type="radio"], .people-option input[type="radio"] {
+    display: none;
+}
+
+/* Style for selected options */
+.budget-option input[type="radio"]:checked + label,
+.people-option input[type="radio"]:checked + label {
+    border: 2px solid black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    background-color: #e6ffe6;
+}
+
+/* Icon and text styling */
+.budget-icon, .people-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #28a745;
+}
+
+.budget-description, .people-description {
+    font-size: 14px;
+    color: #666;
+    font-weight: bold;
+}
+
+/* Button Styles */
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 15px;
+}
+
+button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #1e7e34;
+    transform: scale(0.95);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    input[type="text"], input[type="date"], select {
+        width: 80%;
+    }
+
+    .budget-option, .people-option {
+        width: 40%;
+    }
+
+    button {
+        width: auto;
+        margin: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    input[type="text"], input[type="date"], select {
+        width: 90%;
+    }
+
+    .budget-option, .people-option {
+        width: 45%;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+    }
+}
