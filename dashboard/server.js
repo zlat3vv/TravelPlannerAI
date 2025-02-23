@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY = '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';
 const GOOGLE_API_KEY = 'AIzaSyC3YUQokfrVjE2ClcMwgRgiWJxspyCCYcM';
 
 app.post('/create', async (req, res) => {
