@@ -97,11 +97,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'], $_POST['pa
             unset($_SESSION['error']);
         }
         ?>
-
-        <input type="text" class="login-input" name="username" placeholder="Username" autofocus required />
-        <input type="password" class="login-input" name="password" placeholder="Password" required />
-        <button type="submit" name="submit">Login</button>
-        <p class="link">Don't have an account? <a href="register.php">Register now!</a></p>
+        <label for="username">Потребителско име:</label>
+        <input type="text" class="login-input" name="username"required />
+        <br>
+        <label for="username">Имейл:</label>
+        <input type="password" class="login-input" name="password" required />
+        <br>
+        <button type="submit" name="submit">Влез</button>
+        <p class="link">Нямате акаунт? <a href="register.php">Регистрирайте се сега!</a></p>
     </form>
 </body>
 </html>

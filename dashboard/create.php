@@ -1,9 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION['username'])) {
-    header("Location: ../auth/register.php?error=Please+login+first");
-    exit();
-}
+require('../auth/auth_session.php');
 
 ?>
 <!DOCTYPE html>
@@ -20,13 +16,11 @@ if (!isset($_SESSION['username'])) {
     <h1>Tell us your travel preferences 🏕️🌴</h1>
     <p>Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.</p>
     <form id="trip-form">
-        <!-- Destination Input -->
         <div class="location-options">
             <label for="destination-input"><strong>Where are you planning on going?</strong></label><br>
             <input id="destination-input" type="text" placeholder="Type a destination">
         </div>
 
-        <!-- Date Inputs -->
         <div class="date-options">
             <label for="start-date"><strong>Start Date:</strong></label><br>
             <input id="start-date" name="start-date" type="date">
@@ -36,7 +30,6 @@ if (!isset($_SESSION['username'])) {
             <input id="end-date" name="end-date" type="date">
         </div>
 
-        <!-- Budget Options -->
         <div class="budget-options-container">
             <label><strong>What is Your Budget?</strong></label>
             <div class="budget-options">
@@ -67,7 +60,6 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
 
-        <!-- People Options -->
         <div class="people-options-container">
             <label><strong>Who are you traveling with?</strong></label>
             <div class="people-options">
@@ -105,15 +97,12 @@ if (!isset($_SESSION['username'])) {
                 </div>
             </div>
         </div>
-
-        <!-- Generate Suggestions Button -->
         <button type="button" onclick="getTravelRecommendations()">Generate suggestions</button>
     </form>
+    <a href="../auth/logout.php">Logout</a>
 
-    <!-- Recommendations Display -->
     <div id="recommendations" style="margin-top: 20px;"></div>
 
-    <!-- Scripts -->
     <script src="script.js"></script>
 </body>
 </html>
