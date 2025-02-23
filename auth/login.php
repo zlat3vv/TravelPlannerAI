@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'], $_POST['pa
 </head>
 <body>
     <form class="form" method="post" name="login">
-        <h1 class="login-title">Login</h1>
+        <h1 class="login-title">Влизане</h1>
         
         <?php
         if (isset($_SESSION['error'])) {
@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'], $_POST['pa
         <label for="username">Потребителско име:</label>
         <input type="text" class="login-input" name="username"required />
         <br>
-        <label for="username">Имейл:</label>
+        <label for="username">Парола:</label>
         <input type="password" class="login-input" name="password" required />
         <br>
         <button type="submit" name="submit">Влез</button>
