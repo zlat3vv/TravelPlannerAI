@@ -15,6 +15,7 @@ require('../auth/auth_session.php');
 <body>
     <h1>Tell us your travel preferences 🏕️🌴</h1>
     <p>Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.</p>
+    <a href="../auth/logout.php">Logout</a>
     <form id="trip-form">
         <div class="location-options">
             <label for="destination-input"><strong>Where are you planning on going?</strong></label><br>
@@ -99,8 +100,6 @@ require('../auth/auth_session.php');
         </div>
         <button type="button" onclick="getTravelRecommendations()">Generate suggestions</button>
     </form>
-    <a href="../auth/logout.php">Logout</a>
-
     <div id="recommendations" style="margin-top: 20px;"></div>
 
     <script src="script.js"></script>
