@@ -50,7 +50,6 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus {
 .budget-option:checked, .people-option:checked {
     text-align: center;
     border: 2px solid black;
-    
     padding: 15px;
     width: 30%;
     transition: all 0.3s ease;
@@ -71,13 +70,6 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus {
     display: none;
 }
 
-/* Style for selected options */
-.budget-option input[type="radio"]:checked + label,
-.people-option input[type="radio"]:checked + label {
-    border: 2px solid black;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    background-color: #e6ffe6;
-}
 
 /* Icon and text styling */
 .budget-icon, .people-icon {
@@ -114,7 +106,6 @@ button:active {
     background-color: #1e7e34;
     transform: scale(0.95);
 }
-
 /* Responsive Styles */
 @media (max-width: 768px) {
     input[type="text"], input[type="date"], select {

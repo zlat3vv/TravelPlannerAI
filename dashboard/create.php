@@ -100,8 +100,7 @@ require('../auth/auth_session.php');
         </div>
         <button type="button" onclick="getTravelRecommendations()">Generate suggestions</button>
     </form>
-    <div id="recommendations" style="margin-top: 20px;"></div>
-
+    <div id="recommendations"></div>
     <script src="script.js"></script>
 </body>
 </html>
