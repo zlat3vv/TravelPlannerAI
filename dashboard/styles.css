@@ -74,7 +74,11 @@ input[type="text"]:focus, input[type="date"]:focus, select:focus {
 /* Style for selected options */
 .budget-option input[type="radio"]:checked + label,
 .people-option input[type="radio"]:checked + label {
-    border: 2px solid black;
+    border-radius: 25px;
+    border: 1px  solid black;
+    padding: 20px;
+    width: 180px;
+    height: 150px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     background-color: #e6ffe6;
 }

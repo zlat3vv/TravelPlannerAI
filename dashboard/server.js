@@ -44,7 +44,7 @@ app.post('/create', async (req, res) => {
         The trip starts on ${startDate} and ends on ${endDate}, lasting ${days} days. The budget category is "${budget}", and I will be traveling with ${people}. 
         Please provide:
         1. Recommendations for activities and places to visit, organized by day (${days} days total).
-        2. Suggestions for hotels near ${placeName}, suitable for the "${budget}" budget. Include hotel names and brief descriptions. Give the days and hotels <strong> tags. Add after every day and hotel name <br> tag`;
+        2. Suggestions for hotels near ${placeName}, suitable for the "${budget}" budget. Include hotel names and brief descriptions. Give the days and hotels <strong> tags, MANDATORY. Add before every day and hotel name <br> tag, this is also mandatory.`;
 
         // Изпращане на заявката към OpenAI API
         const openAIResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
@@ -63,6 +63,7 @@ app.post('/create', async (req, res) => {
         // Изпращане на препоръките обратно към клиента
         const recommendations = openAIResponse.data.choices[0].message.content;
         res.json({ message: recommendations });
+        console.log(openAIResponse);
 
     } catch (error) {
         console.error('Error during the API calls:', error);
