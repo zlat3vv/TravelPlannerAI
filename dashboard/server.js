@@ -43,12 +43,12 @@ app.post('/create', async (req, res) => {
         const message = `I am planning a trip to ${placeName} (${formattedAddress}), located at lat: ${location.lat}, long: ${location.lng}.
         The trip starts on ${startDate} and ends on ${endDate}, lasting ${days} days. The budget category is "${budget}", and I will be traveling with ${people}. 
         Please provide:
-        1. Recommendations for activities and places to visit, organized by day (${days} days total).
-        2. Suggestions for hotels near ${placeName}, suitable for the "${budget}" budget. Include hotel names and brief descriptions. Give the days and hotels <strong> tags, MANDATORY. Add before every day and hotel name <br> tag, this is also mandatory.`;
+        1. Recommendations for activities and places to visit, organized by day (${days} days total). Give working links for attractions. Add for the link a href tag.
+        2. Suggestions for hotels near ${placeName}, suitable for the "${budget}" budget. Include hotel names and brief descriptions. Give the working hotels link with a href tag. Give the days and hotels <strong> tags, MANDATORY. Add before every day and hotel name <br> tag, this is also mandatory.`;
 
         // Изпращане на заявката към OpenAI API
         const openAIResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
-            model: 'gpt-4',
+            model: 'gpt-4-turbo',
             messages: [
                 { role: "system", content: "You are a travel assistant." },
                 { role: "user", content: message }

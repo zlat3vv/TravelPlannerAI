@@ -13,7 +13,7 @@ require('../auth/auth_session.php');
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Tell us your travel preferences 🏕️🌴</h1>
+    <h1>Tell us your travel preferences &#9978 &#127796</h1>
     <p>Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.</p>
     <a href="../auth/logout.php">Logout</a>
     <form id="trip-form">
@@ -37,7 +37,7 @@ require('../auth/auth_session.php');
                 <div class="budget-option">
                     <input type="radio" id="cheap" name="budget" value="cheap">
                     <label for="cheap">
-                        <div class="budget-icon">💵</div>
+                        <div class="budget-icon">&#128181</div>
                         <div><strong>Cheap</strong></div>
                         <div class="budget-description">Stay conscious of costs</div>
                     </label>
@@ -45,7 +45,7 @@ require('../auth/auth_session.php');
                 <div class="budget-option">
                     <input type="radio" id="moderate" name="budget" value="moderate">
                     <label for="moderate">
-                        <div class="budget-icon">💰</div>
+                        <div class="budget-icon">&#128176</div>
                         <div><strong>Moderate</strong></div>
                         <div class="budget-description">Keep cost on the average side</div>
                     </label>
@@ -53,7 +53,7 @@ require('../auth/auth_session.php');
                 <div class="budget-option">
                     <input type="radio" id="luxury" name="budget" value="luxury">
                     <label for="luxury">
-                        <div class="budget-icon">🤑</div>
+                        <div class="budget-icon">&#129297</div>
                         <div><strong>Luxury</strong></div>
                         <div class="budget-description">Don't worry about cost</div>
                     </label>
@@ -67,7 +67,7 @@ require('../auth/auth_session.php');
                 <div class="people-option">
                     <input type="radio" id="solo" name="people" value="solo">
                     <label for="solo">
-                        <div class="people-icon">🙋‍♂️</div>
+                        <div class="people-icon">&#128589</div>
                         <div><strong>Solo</strong></div>
                         <div class="people-description">Traveling alone</div>
                     </label>
@@ -75,7 +75,7 @@ require('../auth/auth_session.php');
                 <div class="people-option">
                     <input type="radio" id="couple" name="people" value="couple">
                     <label for="couple">
-                        <div class="people-icon">👫</div>
+                        <div class="people-icon">&#128107</div>
                         <div><strong>Couple</strong></div>
                         <div class="people-description">Traveling with a partner</div>
                     </label>
@@ -83,7 +83,7 @@ require('../auth/auth_session.php');
                 <div class="people-option">
                     <input type="radio" id="family" name="people" value="family">
                     <label for="family">
-                        <div class="people-icon">👨‍👩‍👧‍👦</div>
+                        <div class="people-icon">&#128106</div>
                         <div><strong>Family</strong></div>
                         <div class="people-description">Traveling with family</div>
                     </label>
@@ -91,7 +91,7 @@ require('../auth/auth_session.php');
                 <div class="people-option">
                     <input type="radio" id="friends" name="people" value="friends">
                     <label for="friends">
-                        <div class="people-icon">👯‍♂️</div>
+                        <div class="people-icon">&#128111</div>
                         <div><strong>Friends</strong></div>
                         <div class="people-description">Traveling with friends</div>
                     </label>
