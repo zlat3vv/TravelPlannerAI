@@ -33,12 +33,9 @@ app.post('/create', async (req, res) => {
         }
 
         const placeDetails = googlePlaceResponse.data.results[0];
-        const location = placeDetails.geometry.location;
         const placeName = placeDetails.name;
-        const formattedAddress = placeDetails.formatted_address;
 
-        const message = `I am planning a trip to ${placeName} (${formattedAddress}), located at lat: ${location.lat}, long: ${location.lng}.
-        The trip starts on ${startDate} and ends on ${endDate}, lasting ${days} days. The budget category is "${budget}", and I will be traveling with ${people}. 
+        const message = `I am planning a trip to ${placeName}. The trip starts on ${startDate} and ends on ${endDate}, lasting ${days} days. The budget category is "${budget}", and I will be traveling with ${people}. 
         Please provide:
         1. Recommendations for activities and places to visit, organized by day (${days} days total). Give working links for attractions. Add for the link a href tag.
         2. Suggestions for hotels near ${placeName}, suitable for the "${budget}" budget. Include hotel names and brief descriptions. Give the working  hotels link with a href tag. Give the days and hotels <strong> tags, instead of **. Add before every day and hotel name <br> tag, dont forget them. Връщаш отговор на български.`;

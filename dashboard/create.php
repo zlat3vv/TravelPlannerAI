@@ -25,7 +25,7 @@ require('../auth/auth_session.php');
         <div class="date-options">
             <label for="start-date"><strong>Начална дата:</strong></label><br>
             <input id="start-date" name="start-date" type="date">
-        </div>
+        </div> 
         <div class="date-options">
             <label for="end-date"><strong>Крайна дата:</strong></label><br>
             <input id="end-date" name="end-date" type="date">
