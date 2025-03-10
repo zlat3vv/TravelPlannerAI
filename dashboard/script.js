@@ -12,8 +12,8 @@ function initAutocomplete() {
     autocomplete.addListener('place_changed', () => {
         const place = autocomplete.getPlace();
         if (!place.geometry) {
-            console.error("No details available for input:", place.name);
-            alert("Please select a valid destination from the dropdown.");
+            console.error("Няма информация за:", place.name);
+            alert("Изберете валидна дестинация.");
             return;
         }
     });
@@ -29,21 +29,18 @@ window.onload = () => {
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
 
-    // Set minimum dates for inputs
     startDateInput.min = tomorrow.toISOString().split('T')[0];
     endDateInput.min = tomorrow.toISOString().split('T')[0];
 
-    // Set default values
     startDateInput.value = tomorrow.toISOString().split('T')[0];
     endDateInput.value = tomorrow.toISOString().split('T')[0];
 
-    // Event listeners for date validation
     startDateInput.addEventListener('change', () => {
         const startDate = new Date(startDateInput.value);
         const endDate = new Date(endDateInput.value);
 
         if (startDate < tomorrow) {
-            alert('Start date cannot be in the past. Resetting to minimum available date.');
+            alert('Началната дате не може да е в миналото.');
             startDateInput.value = tomorrow.toISOString().split('T')[0];
         }
 
@@ -58,7 +55,7 @@ window.onload = () => {
         const endDate = new Date(endDateInput.value);
 
         if (endDate < startDate) {
-            alert('End date cannot be before start date. Resetting.');
+            alert('Крайната дата трябва да е след началната дата.');
             endDateInput.value = startDateInput.value;
         }
     });
@@ -73,7 +70,7 @@ async function getTravelRecommendations() {
     const recommendationsDiv = document.getElementById('recommendations');
 
     if (!destination || !startDate || !endDate || !budget || !people) {
-        recommendationsDiv.innerHTML = "<p><strong>Please fill out all fields (destination, dates, budget, and people).</strong></p>";
+        recommendationsDiv.innerHTML = "<p><strong>Трябва да въведете всички полета(дестинация, дни, бюджет и група).</strong></p>";
         return;
     }
 
@@ -82,11 +79,11 @@ async function getTravelRecommendations() {
     const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
 
     if (days < 1) {
-        recommendationsDiv.innerHTML = "<p><strong>End date must be after start date.</strong></p>";
+        recommendationsDiv.innerHTML = "<p><strong>Крайната дата трябва да е след началната дата.</strong></p>";
         return;
     }
 
-    recommendationsDiv.innerHTML = "<p><strong>Please wait... We are working on it...</strong></p>";
+    recommendationsDiv.innerHTML = "<p><strong>Моля изчакайте....Работим по въпроса.....</strong></p>";
 
     try {
         const response = await fetch('http://localhost:3000/create', {
@@ -109,9 +106,9 @@ async function getTravelRecommendations() {
         }
 
         const travelAdvice = await response.json();
-        recommendationsDiv.innerHTML = `<p><strong>Recommendations for ${destination}:</strong></p><p>${travelAdvice.message}</p>`;
+        recommendationsDiv.innerHTML = `<p><strong>Препоръки за ${destination}:</strong></p><p>${travelAdvice.message}</p>`;
     } catch (error) {
         console.error("Error:", error);
-        recommendationsDiv.innerHTML = "<p><strong>Failed to load recommendations. Please try again later.</strong></p>";
+        recommendationsDiv.innerHTML = "<p><strong>Не успяхме да създадем препоръки. Опитайте пак по-късно.</strong></p>";
     }
 }

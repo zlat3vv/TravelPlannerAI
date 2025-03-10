@@ -7,21 +7,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
 
-    // Проверка за празни полета
     if (empty($username) || empty($email) || empty($password)) {
         $_SESSION['error'] = "Всички полета са задължителни!";
         header("Location: register.php");
         exit();
     }
 
-    // Валидация на имейл
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['error'] = "Невалиден формат на имейл!";
         header("Location: register.php");
         exit();
     }
-
-    // Проверка дали потребителското име или имейлът вече съществуват
     $check_sql = $con->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
     $check_sql->bind_param("ss", $username, $email);
     $check_sql->execute();
@@ -34,10 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $check_sql->close();
 
-    // Хеширане на паролата
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Вмъкване на нов потребител
     $sql = $con->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
     $sql->bind_param("sss", $username, $email, $hashed_password);
 
@@ -105,7 +99,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <h2>Регистрация</h2>
-
         <?php
         if (isset($_SESSION['error'])) {
             echo "<p class='message error'>{$_SESSION['error']}</p>";
@@ -116,7 +109,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             unset($_SESSION['success']);
         }
         ?>
-
         <label for="username">Потребителско име:</label>
         <input type="text" id="username" name="username" required>
         <br>

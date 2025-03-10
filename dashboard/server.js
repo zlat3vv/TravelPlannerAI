@@ -13,7 +13,6 @@ app.post('/create', async (req, res) => {
     const { destination, startDate, endDate, budget, people } = req.body;
 
     try {
-        // Проверка дали началната дата е преди крайната
         const start = new Date(startDate);
         const end = new Date(endDate);
         const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
@@ -22,7 +21,6 @@ app.post('/create', async (req, res) => {
             return res.status(400).json({ error: 'End date must be after start date.' });
         }
 
-        // Извличане на информация за дестинацията чрез Google Places API
         const googlePlaceResponse = await axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json', {
             params: {
                 query: destination,
@@ -39,14 +37,12 @@ app.post('/create', async (req, res) => {
         const placeName = placeDetails.name;
         const formattedAddress = placeDetails.formatted_address;
 
-        // Съставяне на съобщението за OpenAI API
         const message = `I am planning a trip to ${placeName} (${formattedAddress}), located at lat: ${location.lat}, long: ${location.lng}.
         The trip starts on ${startDate} and ends on ${endDate}, lasting ${days} days. The budget category is "${budget}", and I will be traveling with ${people}. 
         Please provide:
         1. Recommendations for activities and places to visit, organized by day (${days} days total). Give working links for attractions. Add for the link a href tag.
-        2. Suggestions for hotels near ${placeName}, suitable for the "${budget}" budget. Include hotel names and brief descriptions. Give the working  hotels link with a href tag. Give the days and hotels <strong> tags, MANDATORY. Add before every day and hotel name <br> tag, this is also mandatory.`;
+        2. Suggestions for hotels near ${placeName}, suitable for the "${budget}" budget. Include hotel names and brief descriptions. Give the working  hotels link with a href tag. Give the days and hotels <strong> tags, instead of **. Add before every day and hotel name <br> tag, dont forget them. Връщаш отговор на български.`;
 
-        // Изпращане на заявката към OpenAI API
         const openAIResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: 'gpt-4-turbo',
             messages: [
@@ -60,7 +56,6 @@ app.post('/create', async (req, res) => {
             }
         });
 
-        // Изпращане на препоръките обратно към клиента
         const recommendations = openAIResponse.data.choices[0].message.content;
         res.json({ message: recommendations });
         console.log(openAIResponse);

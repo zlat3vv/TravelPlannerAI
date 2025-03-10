@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'], $_POST['pa
     $password = trim($_POST['password']);
 
     if (empty($username) || empty($password)) {
-        $_SESSION['error'] = "Username and password are required!";
+        $_SESSION['error'] = "Потребителско име и парола са задължителни!";
         header("Location: login.php");
         exit();
     }
@@ -25,14 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'], $_POST['pa
             header("Location: ../dashboard/create.php");
             exit();
         } else {
-            $_SESSION['error'] = "Invalid username or password.";
+            $_SESSION['error'] = "Не валидно потреебителско име или парола.";
         }
-    } else {
-        $_SESSION['error'] = "Invalid username or password.";
-    }
-
     header("Location: login.php");
     exit();
+    }
 }
 ?>
 
@@ -89,8 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'], $_POST['pa
 </head>
 <body>
     <form class="form" method="post" name="login">
-        <h1 class="login-title">Влизане</h1>
-        
+        <h1 class="login-title">Влизане</h1>        
         <?php
         if (isset($_SESSION['error'])) {
             echo "<p class='error-message'>{$_SESSION['error']}</p>";
