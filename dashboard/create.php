@@ -1,5 +1,5 @@
 <?php
-require('../auth/auth_session.php');
+require '../auth/auth_session.php';
 
 ?>
 <!DOCTYPE html>
@@ -18,21 +18,21 @@ require('../auth/auth_session.php');
     <a href="../auth/logout.php">Излизане</a>
     <form id="trip-form">
         <div class="location-options">
-            <label for="destination-input"><strong>Къде планувате да ходите?</strong></label><br>
+            <h4 for="destination-input"><strong>Къде планувате да ходите?</strong></h4><br>
             <input id="destination-input" type="text" placeholder="Въведете дестинация">
         </div>
 
         <div class="date-options">
-            <label for="start-date"><strong>Начална дата:</strong></label><br>
+            <h4 for="start-date"><strong>Начална дата:</strong></h4><br>
             <input id="start-date" name="start-date" type="date">
         </div> 
         <div class="date-options">
-            <label for="end-date"><strong>Крайна дата:</strong></label><br>
+            <h4 for="end-date"><strong>Крайна дата:</strong></h4><br>
             <input id="end-date" name="end-date" type="date">
         </div>
 
         <div class="budget-options-container">
-            <label><strong>Какъв е вашия бюджет?</strong></label>
+            <h4><strong>Какъв е вашия бюджет?</strong></h4>
             <div class="budget-options">
                 <div class="budget-option">
                     <input type="radio" id="cheap" name="budget" value="cheap">
@@ -62,7 +62,7 @@ require('../auth/auth_session.php');
         </div>
 
         <div class="people-options-container">
-            <label><strong>С кого ще пътувате?</strong></label>
+            <h4><strong>С кого ще пътувате?</strong></h4>
             <div class="people-options">
                 <div class="people-option">
                     <input type="radio" id="solo" name="people" value="solo">

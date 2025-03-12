@@ -22,13 +22,16 @@ USE `loginsystem`;
 -- Дъмп структура за таблица loginsystem.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Дъмп данни за таблица loginsystem.users: ~0 rows (приблизителен брой)
+-- Дъмп данни за таблица loginsystem.users: ~2 rows (приблизителен брой)
+INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES
+	(16, 'ico', '20427@uktc-bg.com', '$2y$10$QDGhwDxntMs/N0hGd9sE7.KcZWY1/TLitLQk11eh0090IeQTQXlli'),
+	(17, 'nz', 'nz@abv.bg', '$2y$10$yPuvx9iIUEIcXtCA20lXB.6wyGsTLPGOFZJzpEj2/r0xDottw9z5q');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -77,14 +77,11 @@ async function getTravelRecommendations() {
     const start = new Date(startDate);
     const end = new Date(endDate);
     const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-
     if (days < 1) {
         recommendationsDiv.innerHTML = "<p><strong>Крайната дата трябва да е след началната дата.</strong></p>";
         return;
     }
-
     recommendationsDiv.innerHTML = "<p><strong>Моля изчакайте....Работим по въпроса.....</strong></p>";
-
     try {
         const response = await fetch('http://localhost:3000/create', {
             method: 'POST',
