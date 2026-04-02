@@ -13,6 +13,19 @@ require '../auth/auth_session.php';
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="loading-overlay" aria-hidden="true">
+        <div class="loading-content">
+            <div class="plane-wrapper">
+                <div class="trail"></div>
+                <div class="trail t2"></div>
+                <div class="trail t3"></div>
+                <div class="plane-emoji">✈️</div>
+            </div>
+            <h2 class="loading-title">Създаваме вашия план...</h2>
+            <p class="loading-sub">Търсим най-добрите места и хотели за вас</p>
+            <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+        </div>
+    </div>
     <div class="main-container">
         <a href="../auth/logout.php" class="logout-btn">Излизане</a>
         <h1>Кажете ни вашите предпочитания за пътуване &#9978 &#127796</h1>
@@ -100,9 +113,9 @@ require '../auth/auth_session.php';
                     </div>
                 </div>
             </div>
-            <button type="button" onclick="getTravelRecommendations()">Генерирай препоръки</button>
+            <button type="button" id="generate-btn" onclick="getTravelRecommendations()">Генерирай препоръки</button>
         </form>
-        <div id="recommendations"></div>
+        <div id="status-message" style="display:none;"></div>
     </div>
     <script src="script.js"></script>
 </body>

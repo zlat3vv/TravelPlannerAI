@@ -5,6 +5,10 @@ function initAutocomplete() {
     }
 
     const input = document.getElementById('destination-input');
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') e.preventDefault();
+    });
     const autocomplete = new google.maps.places.Autocomplete(input, {
         types: ['(cities)']
     });
@@ -12,7 +16,6 @@ function initAutocomplete() {
     autocomplete.addListener('place_changed', () => {
         const place = autocomplete.getPlace();
         if (!place.geometry) {
-            console.error("Няма информация за:", place.name);
             alert("Изберете валидна дестинация.");
             return;
         }
@@ -31,19 +34,16 @@ window.onload = () => {
 
     startDateInput.min = tomorrow.toISOString().split('T')[0];
     endDateInput.min = tomorrow.toISOString().split('T')[0];
-
     startDateInput.value = tomorrow.toISOString().split('T')[0];
     endDateInput.value = tomorrow.toISOString().split('T')[0];
 
     startDateInput.addEventListener('change', () => {
         const startDate = new Date(startDateInput.value);
         const endDate = new Date(endDateInput.value);
-
         if (startDate < tomorrow) {
             alert('Началната дата не може да е в миналото.');
             startDateInput.value = tomorrow.toISOString().split('T')[0];
         }
-
         endDateInput.min = startDateInput.value;
         if (endDate < startDate) {
             endDateInput.value = startDateInput.value;
@@ -53,7 +53,6 @@ window.onload = () => {
     endDateInput.addEventListener('change', () => {
         const startDate = new Date(startDateInput.value);
         const endDate = new Date(endDateInput.value);
-
         if (endDate < startDate) {
             alert('Крайната дата трябва да е след началната дата.');
             endDateInput.value = startDateInput.value;
@@ -67,10 +66,13 @@ async function getTravelRecommendations() {
     const endDate = document.getElementById('end-date').value;
     const budget = document.querySelector('input[name="budget"]:checked');
     const people = document.querySelector('input[name="people"]:checked');
-    const recommendationsDiv = document.getElementById('recommendations');
+    const btn = document.getElementById('generate-btn');
+    const statusDiv = document.getElementById('status-message');
+    const overlay = document.getElementById('loading-overlay');
 
     if (!destination || !startDate || !endDate || !budget || !people) {
-        recommendationsDiv.innerHTML = "<p><strong>Трябва да въведете всички полета(дестинация, дни, бюджет и група).</strong></p>";
+        statusDiv.innerHTML = '<p><strong>Трябва да въведете всички полета (дестинация, дни, бюджет и група).</strong></p>';
+        statusDiv.style.display = 'block';
         return;
     }
 
@@ -78,34 +80,41 @@ async function getTravelRecommendations() {
     const end = new Date(endDate);
     const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
     if (days < 1) {
-        recommendationsDiv.innerHTML = "<p><strong>Крайната дата трябва да е след началната дата.</strong></p>";
+        statusDiv.innerHTML = '<p><strong>Крайната дата трябва да е след началната дата.</strong></p>';
+        statusDiv.style.display = 'block';
         return;
     }
-    recommendationsDiv.innerHTML = "<p><strong>Моля изчакайте....Работим по въпроса.....</strong></p>";
+
+    statusDiv.style.display = 'none';
+    const oldBar = overlay.querySelector('.loading-bar');
+    const newBar = oldBar.cloneNode(true);
+    oldBar.parentNode.replaceChild(newBar, oldBar);
+    overlay.classList.add('active');
+    btn.disabled = true;
+
     try {
         const response = await fetch('http://localhost:3000/create', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                destination,
-                startDate,
-                endDate,
-                days,
-                budget: budget.value,
-                people: people.value
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ destination, startDate, endDate, days, budget: budget.value, people: people.value })
         });
 
         if (!response.ok) {
-            throw new Error(`Server error: ${response.status}`);
+            const err = await response.json();
+            throw new Error(err.error || `Server error: ${response.status}`);
         }
 
-        const travelAdvice = await response.json();
-        recommendationsDiv.innerHTML = `<p><strong>Препоръки за ${destination}:</strong></p><p>${travelAdvice.message}</p>`;
+        const tripData = await response.json();
+
+        sessionStorage.setItem('tripData', JSON.stringify(tripData));
+        sessionStorage.setItem('tripMeta', JSON.stringify({ destination, startDate, endDate, budget: budget.value, people: people.value }));
+        window.location.href = 'results.php';
+
     } catch (error) {
         console.error("Error:", error);
-        recommendationsDiv.innerHTML = "<p><strong>Не успяхме да създадем препоръки. Опитайте пак по-късно.</strong></p>";
+        overlay.classList.remove('active');
+        btn.disabled = false;
+        statusDiv.innerHTML = `<p><strong>❌ Не успяхме да създадем препоръки: ${error.message}</strong></p>`;
+        statusDiv.style.display = 'block';
     }
 }
