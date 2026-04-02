@@ -148,7 +148,8 @@ Rules:
     } catch (error) {
         console.error('Error:', error.response?.data || error.message);
         if (error.response) {
-            return res.status(error.response.status || 500).json({ error: error.response.data || 'External API error' });
+            const apiError = error.response.data.error?.message || error.response.data.error || 'External API error';
+            return res.status(error.response.status || 500).json({ error: apiError });
         }
         res.status(500).json({ error: 'An unexpected error occurred.' });
     }

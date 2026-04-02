@@ -19,7 +19,7 @@ require '../auth/auth_session.php';
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
             Нов план
         </a>
-        <div class="nav-logo">✈️ Travel Planner AI</div>
+        <div class="nav-logo">✈️ TravelPlannerAI</div>
         <a href="../auth/logout.php" class="logout-btn">Излизане</a>
     </nav>
 
@@ -34,9 +34,7 @@ require '../auth/auth_session.php';
             <h2>Зареждаме вашия план...</h2>
         </div>
     </div>
-
     <div id="app" style="display:none;">
-        <!-- Hero Header -->
         <header class="trip-header">
             <div class="header-content">
                 <div class="destination-badge">📍 <span id="destination-name"></span></div>
@@ -48,26 +46,20 @@ require '../auth/auth_session.php';
                 </div>
             </div>
         </header>
-
-        <!-- Tab Navigation -->
         <div class="tabs-container">
             <div class="tabs">
                 <button class="tab active" onclick="showTab('itinerary', this)">📅 Програма по дни</button>
                 <button class="tab" onclick="showTab('hotels', this)">🏨 Хотели</button>
             </div>
         </div>
-
-        <!-- Itinerary Section -->
         <section id="itinerary-section" class="section">
             <div class="days-container" id="days-container"></div>
         </section>
 
-        <!-- Hotels Section -->
         <section id="hotels-section" class="section" style="display:none;">
             <div class="hotels-grid" id="hotels-container"></div>
         </section>
     </div>
-
     <script>
         const budgetLabels = { cheap: '💵 Евтино', moderate: '💰 Умерено', luxury: '💎 Луксозно' };
         const peopleLabels = { solo: '🧍 Сам', couple: '👫 Двойка', family: '👨‍👩‍👧 Семейство', friends: '👥 Приятели' };
@@ -132,7 +124,6 @@ require '../auth/auth_session.php';
             const trip = JSON.parse(tripDataRaw);
             const meta = tripMetaRaw ? JSON.parse(tripMetaRaw) : {};
 
-            // Fill header
             document.getElementById('destination-name').textContent = trip.destination || meta.destination || '';
             document.getElementById('trip-title').textContent = `Вашият план за ${trip.destination || meta.destination}`;
 
@@ -146,7 +137,6 @@ require '../auth/auth_session.php';
                 document.getElementById('meta-people').textContent = peopleLabels[meta.people] || meta.people;
             }
 
-            // Build days
             const daysContainer = document.getElementById('days-container');
             if (trip.days && trip.days.length > 0) {
                 trip.days.forEach(day => {
@@ -163,13 +153,11 @@ require '../auth/auth_session.php';
                 });
             }
 
-            // Build hotels
             const hotelsContainer = document.getElementById('hotels-container');
             if (trip.hotels && trip.hotels.length > 0) {
                 hotelsContainer.innerHTML = trip.hotels.map(createHotelCard).join('');
             }
 
-            // Hide loading, show app
             document.getElementById('loading-screen').style.display = 'none';
             document.getElementById('app').style.display = 'block';
         };
