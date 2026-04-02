@@ -54,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация - TravelPlannerAI</title>
     <link rel="stylesheet" href="style.css"/>
+    <link rel="icon" type="image/png" href="/TravelPlannerAI/favicon.png">
 </head>
 <body>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">

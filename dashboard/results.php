@@ -10,6 +10,7 @@ require '../auth/auth_session.php';
     <meta name="description" content="Персонализиран план за вашето пътуване с препоръки за места, хотели и дейности.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="result-styles.css">
+    <link rel="icon" type="image/png" href="/TravelPlannerAI/favicon.png">
 </head>
 <body>
     <div class="page-bg"></div>

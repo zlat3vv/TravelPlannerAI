@@ -1,5 +1,18 @@
 <?php
 require '../auth/auth_session.php';
+$envFile = __DIR__ . '/../.env';
+$googleApiKey = '';
+if (file_exists($envFile)) {
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        list($name, $value) = explode('=', $line, 2);
+        if (trim($name) === 'GOOGLE_API_KEY') {
+            $googleApiKey = trim($value);
+            break;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="bg-BG">
@@ -8,9 +21,10 @@ require '../auth/auth_session.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Planner</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3YUQokfrVjE2ClcMwgRgiWJxspyCCYcM&libraries=places"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo htmlspecialchars($googleApiKey); ?>&libraries=places"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="/TravelPlannerAI/favicon.png">
 </head>
 <body>
     <div id="loading-overlay" aria-hidden="true">

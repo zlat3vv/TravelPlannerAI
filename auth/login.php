@@ -42,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'], $_POST['pa
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Влизане - TravelPlannerAI</title>
     <link rel="stylesheet" href="style.css"/>
+    <link rel="icon" type="image/png" href="/TravelPlannerAI/favicon.png">
 </head>
 <body>
     <form class="form" method="post" name="login">
