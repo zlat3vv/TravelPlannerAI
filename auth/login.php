@@ -25,11 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'], $_POST['pa
             header("Location: ../dashboard/create.php");
             exit();
         } else {
-            $_SESSION['error'] = "Не валидно потреебителско име или парола.";
+            $_SESSION['error'] = "Невалидно потребителско име или парола.";
         }
+    } else {
+        $_SESSION['error'] = "Невалидно потребителско име или парола.";
+    }
     header("Location: login.php");
     exit();
-    }
 }
 ?>
 

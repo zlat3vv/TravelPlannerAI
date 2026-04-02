@@ -1,13 +1,16 @@
 import express from 'express';
 import axios from 'axios';
 import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-const OPENAI_API_KEY = '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';
-const GOOGLE_API_KEY = 'AIzaSyC3YUQokfrVjE2ClcMwgRgiWJxspyCCYcM';
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
 app.post('/create', async (req, res) => {
     const { destination, startDate, endDate, budget, people } = req.body;

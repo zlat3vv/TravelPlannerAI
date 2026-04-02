@@ -40,7 +40,7 @@ window.onload = () => {
         const endDate = new Date(endDateInput.value);
 
         if (startDate < tomorrow) {
-            alert('Началната дате не може да е в миналото.');
+            alert('Началната дата не може да е в миналото.');
             startDateInput.value = tomorrow.toISOString().split('T')[0];
         }
 
