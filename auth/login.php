@@ -36,73 +36,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['username'], $_POST['pa
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg-BG">
 <head>
     <meta charset="utf-8"/>
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Влизане - TravelPlannerAI</title>
     <link rel="stylesheet" href="style.css"/>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        form {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            margin: 10px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .link {
-            margin-top: 10px;
-        }
-    </style>    
 </head>
 <body>
     <form class="form" method="post" name="login">
         <h1 class="login-title">Влизане</h1>        
         <?php
         if (isset($_SESSION['error'])) {
-            echo "<p class='error-message'>{$_SESSION['error']}</p>";
+            echo "<div class='error-message'>{$_SESSION['error']}</div>";
             unset($_SESSION['error']);
         }
         ?>
         <label for="username">Потребителско име:</label>
-        <input type="text" class="login-input" name="username"required />
-        <br>
-        <label for="username">Парола:</label>
-        <input type="password" class="login-input" name="password" required />
-        <br>
+        <input type="text" id="username" class="login-input" name="username" required>
+
+        <label for="password">Парола:</label>
+        <input type="password" id="password" class="login-input" name="password" required>
+
         <button type="submit" name="submit">Влез</button>
-        <p class="link">Нямате акаунт? <a href="register.php">Регистрирайте се сега!</a></p>
+        <p class="link">Нямате акаунт? <a href="register.php">Регистрирайте се!</a></p>
     </form>
 </body>
 </html>

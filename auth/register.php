@@ -48,78 +48,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="bg-BG">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        form {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .message {
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .error { color: red; }
-        .success { color: green; }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            margin: 10px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>Регистрация - TravelPlannerAI</title>
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <h2>Регистрация</h2>
         <?php
         if (isset($_SESSION['error'])) {
-            echo "<p class='message error'>{$_SESSION['error']}</p>";
+            echo "<div class='message error'>{$_SESSION['error']}</div>";
             unset($_SESSION['error']);
         }
         if (isset($_SESSION['success'])) {
-            echo "<p class='message success'>{$_SESSION['success']}</p>";
+            echo "<div class='message success'>{$_SESSION['success']}</div>";
             unset($_SESSION['success']);
         }
         ?>
         <label for="username">Потребителско име:</label>
         <input type="text" id="username" name="username" required>
-        <br>
+
         <label for="email">Имейл:</label>
         <input type="email" id="email" name="email" required>
-        <br>
+
         <label for="password">Парола:</label>
         <input type="password" id="password" name="password" required>
-        <br>
+
         <button type="submit" name="submit">Регистрирай се</button>
-        <p>Вече имате акаунт? <a href="login.php">Вход</a></p>
+        <p class="link">Вече имате акаунт? <a href="login.php">Вход</a></p>
     </form>
 </body>
 </html>
