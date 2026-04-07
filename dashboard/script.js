@@ -101,7 +101,11 @@ async function getTravelRecommendations() {
 
         if (!response.ok) {
             const err = await response.json();
-            throw new Error(err.error || `Server error: ${response.status}`);
+            let errorMsg = err.error || `Server error: ${response.status}`;
+            if (err.googleStatus) {
+                errorMsg += ` (Google API Status: ${err.googleStatus})`;
+            }
+            throw new Error(errorMsg);
         }
 
         const tripData = await response.json();
