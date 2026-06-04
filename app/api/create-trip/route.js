@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]/route";
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
 async function getPlacePhoto(placeName, nearCity) {
@@ -38,12 +36,6 @@ async function verifyUrl(url) {
 }
 
 export async function POST(req) {
-    // Optionally check if user is logged in
-    const session = await getServerSession(authOptions);
-    if (!session) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     try {
         const body = await req.json();
         const { destination, startDate, endDate, budget, people, language = 'bg' } = body;
@@ -59,7 +51,7 @@ export async function POST(req) {
         const googlePlaceResponse = await axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json', {
             params: { query: destination, key: GOOGLE_API_KEY }
         });
-        
+
         if (!googlePlaceResponse.data.results || googlePlaceResponse.data.results.length === 0) {
             return NextResponse.json({ error: 'Could not find the destination.', googleStatus: googlePlaceResponse.data.status }, { status: 404 });
         }
@@ -113,21 +105,25 @@ Rules:
 - Every URL must be a real, currently live website that you are certain exists. If you are not 100% sure the URL works, use null instead of guessing.
 - Return ONLY the JSON object, nothing else`;
 
-        const openAIResponse = await axios.post('https://api.openai.com/v1/chat/completions', {
-            model: 'gpt-4-turbo',
-            messages: [
-                { role: "system", content: "You are a travel assistant. Always respond with valid JSON only." },
-                { role: "user", content: prompt }
+        const geminiResponse = await axios.post(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+            contents: [
+                {
+                    role: "user",
+                    parts: [
+                        { text: "You are a travel assistant. Always respond with valid JSON only.\n\n" + prompt }
+                    ]
+                }
             ],
-            response_format: { type: "json_object" }
+            generationConfig: {
+                responseMimeType: "application/json"
+            }
         }, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
+                'Content-Type': 'application/json'
             }
         });
 
-        const rawJson = openAIResponse.data.choices[0].message.content;
+        const rawJson = geminiResponse.data.candidates[0].content.parts[0].text;
         const tripData = JSON.parse(rawJson);
 
         const tasks = [];

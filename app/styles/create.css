@@ -142,27 +142,10 @@ body {
 .create-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 28px;
-}
-
-.create-logout-btn {
-    color: #ff6b6b;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.875rem;
-    padding: 7px 16px;
-    border-radius: 20px;
-    background: rgba(255, 107, 107, 0.1);
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.create-logout-btn:hover {
-    background: rgba(255, 107, 107, 0.2);
-    color: #fa5252;
 }
 
 /* ──────────────────────────────────────────
@@ -243,6 +226,36 @@ select {
 
 input[type="date"] {
     max-width: 100%;
+}
+
+.date-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 420px;
+}
+
+.date-input-wrapper input[type="text"] {
+    max-width: 100%;
+    padding-right: 44px;
+}
+
+.calendar-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 4px;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.calendar-btn:hover {
+    opacity: 1;
 }
 
 input[type="text"]:focus,
@@ -444,8 +457,13 @@ form > button:disabled {
         font-size: 0.95rem;
     }
 
-    /* Budget & people: 2-column grid on small phones */
-    .budget-options,
+    /* Budget: 3 columns so all 3 options fit in one row */
+    .budget-options {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    /* People: 2-column grid on small phones */
     .people-options {
         grid-template-columns: 1fr 1fr;
         gap: 10px;

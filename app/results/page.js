@@ -1,26 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useLanguage } from "../contexts/LanguageContext";
 import HeaderControls from "../components/HeaderControls";
 import "../styles/results.css";
 
-function formatDate(dateStr, lang) {
+function formatDate(dateStr) {
   const d = new Date(dateStr + 'T00:00:00');
-  const locales = {
-    bg: 'bg-BG',
-    en: 'en-US',
-    de: 'de-DE',
-    ru: 'ru-RU'
-  };
-  return d.toLocaleDateString(locales[lang] || 'bg-BG', { day: 'numeric', month: 'long', year: 'numeric' });
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}.${month}.${year}`;
 }
 
 export default function Results() {
-  const { status } = useSession();
+
   const router = useRouter();
   const { t, lang } = useLanguage();
 
@@ -28,11 +24,7 @@ export default function Results() {
   const [meta, setMeta] = useState(null);
   const [activeTab, setActiveTab] = useState("itinerary");
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, [status, router]);
+
 
   useEffect(() => {
     const tripDataRaw = sessionStorage.getItem("tripData");
@@ -47,7 +39,7 @@ export default function Results() {
     setMeta(tripMetaRaw ? JSON.parse(tripMetaRaw) : {});
   }, [router]);
 
-  if (status === "loading" || !trip || !meta) {
+  if (!trip || !meta) {
     return (
       <div id="loading-screen" style={{ display: "flex" }}>
         <div className="loading-card">
@@ -79,9 +71,6 @@ export default function Results() {
         <div className="nav-logo">✈️ TravelPlannerAI</div>
         <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
           <HeaderControls />
-          <Link href="/api/auth/signout" className="logout-btn">
-            {t("navLogout")}
-          </Link>
         </div>
       </nav>
 
@@ -92,7 +81,7 @@ export default function Results() {
             <h1 id="trip-title">{t("resultsTitle")} {destinationName}</h1>
             <div className="trip-meta-row">
               {meta.startDate && meta.endDate && (
-                <span className="meta-chip">🗓️ {formatDate(meta.startDate, lang)} – {formatDate(meta.endDate, lang)}</span>
+                <span className="meta-chip">🗓️ {formatDate(meta.startDate)} – {formatDate(meta.endDate)}</span>
               )}
               {meta.budget && (
                 <span className="meta-chip">{
@@ -137,7 +126,7 @@ export default function Results() {
                 <div className="day-block" key={idx}>
                   <div className="day-header">
                     <div className="day-number">{t("dayPrefix")} {day.day}</div>
-                    {day.date && <span className="day-date">{formatDate(day.date, lang)}</span>}
+                    {day.date && <span className="day-date">{formatDate(day.date)}</span>}
                   </div>
                   <div className="activities-row">
                     {(day.activities || []).map((activity, aidx) => (

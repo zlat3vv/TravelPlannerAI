@@ -1,16 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
-import Link from "next/link";
 import { useLanguage } from "../contexts/LanguageContext";
 import HeaderControls from "../components/HeaderControls";
 import "../styles/create.css";
 
 export default function CreateTrip() {
-  const { data: session, status } = useSession();
   const router = useRouter();
   const { t, lang } = useLanguage();
 
@@ -24,21 +21,29 @@ export default function CreateTrip() {
 
   const inputRef = useRef(null);
   const autocompleteRef = useRef(null);
+  const startPickerRef = useRef(null);
+  const endPickerRef = useRef(null);
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, [status, router]);
+  // Helpers: convert between dd.mm.yyyy (display) and yyyy-mm-dd (ISO)
+  const toISO = (ddmmyyyy) => {
+    const [d, m, y] = ddmmyyyy.split(".");
+    return `${y}-${m}-${d}`;
+  };
+  const toDisplay = (iso) => {
+    const [y, m, d] = iso.split("-");
+    return `${d}.${m}.${y}`;
+  };
+
+  const todayISO = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
-    const tomorrowStr = tomorrow.toISOString().split("T")[0];
+    const tomorrowISO = tomorrow.toISOString().split("T")[0];
 
-    if (!startDate) setStartDate(tomorrowStr);
-    if (!endDate) setEndDate(tomorrowStr);
+    if (!startDate) setStartDate(toDisplay(tomorrowISO));
+    if (!endDate) setEndDate(toDisplay(tomorrowISO));
   }, []);
 
   const handleScriptLoad = () => {
@@ -61,18 +66,19 @@ export default function CreateTrip() {
 
   const handleSubmit = async () => {
     const finalDest = inputRef.current?.value || destination;
-    
+
     if (!finalDest || !startDate || !endDate || !budget || !people) {
       setErrorMsg(t("errorRequired") || "You must fill all fields.");
       return;
     }
 
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+    const startISO = toISO(startDate);
+    const endISO = toISO(endDate);
+    const start = new Date(startISO);
+    const end = new Date(endISO);
 
-    if (days < 1) {
-      setErrorMsg("End date must be after start date.");
+    if (end < start) {
+      setErrorMsg("End date must be on or after start date.");
       return;
     }
 
@@ -85,11 +91,11 @@ export default function CreateTrip() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           destination: finalDest,
-          startDate,
-          endDate,
+          startDate: toISO(startDate),
+          endDate: toISO(endDate),
           budget,
           people,
-          language: lang, // Pass language to the API
+          language: lang,
         }),
       });
 
@@ -103,7 +109,7 @@ export default function CreateTrip() {
       sessionStorage.setItem("tripData", JSON.stringify(tripData));
       sessionStorage.setItem(
         "tripMeta",
-        JSON.stringify({ destination: finalDest, startDate, endDate, budget, people })
+        JSON.stringify({ destination: finalDest, startDate: toISO(startDate), endDate: toISO(endDate), budget, people })
       );
       router.push("/results");
     } catch (error) {
@@ -112,10 +118,6 @@ export default function CreateTrip() {
       setLoading(false);
     }
   };
-
-  if (status === "loading" || status === "unauthenticated") {
-    return null;
-  }
 
   return (
     <>
@@ -146,9 +148,6 @@ export default function CreateTrip() {
       <div className="main-container">
         <div className="create-header">
           <HeaderControls />
-          <Link href="/api/auth/signout" className="create-logout-btn">
-            {t("navLogout")}
-          </Link>
         </div>
         <h1>{t("createTitle")}</h1>
         <p>{t("createSubtitle")}</p>
@@ -171,24 +170,63 @@ export default function CreateTrip() {
           <div className="date-row">
             <div className="date-options">
               <h4><strong>{t("startDateLabel")}</strong></h4>
-              <input
-                id="start-date"
-                name="start-date"
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
+              <div className="date-input-wrapper">
+                <input
+                  id="start-date"
+                  name="start-date"
+                  type="text"
+                  placeholder="dd.mm.yyyy"
+                  value={startDate}
+                  readOnly
+                  style={{ cursor: "pointer" }}
+                  onClick={() => startPickerRef.current?.showPicker()}
+                />
+                <button
+                  type="button"
+                  className="calendar-btn"
+                  onClick={() => startPickerRef.current?.showPicker()}
+                  title="Open calendar"
+                >
+                  📅
+                </button>
+                <input
+                  ref={startPickerRef}
+                  type="date"
+                  min={todayISO}
+                  style={{ position: "absolute", opacity: 0, pointerEvents: "none", width: 0, height: 0 }}
+                  onChange={(e) => e.target.value && setStartDate(toDisplay(e.target.value))}
+                />
+              </div>
             </div>
             <div className="date-options">
               <h4><strong>{t("endDateLabel")}</strong></h4>
-              <input
-                id="end-date"
-                name="end-date"
-                type="date"
-                value={endDate}
-                min={startDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
+              <div className="date-input-wrapper">
+                <input
+                  id="end-date"
+                  name="end-date"
+                  type="text"
+                  placeholder="dd.mm.yyyy"
+                  value={endDate}
+                  readOnly
+                  style={{ cursor: "pointer" }}
+                  onClick={() => endPickerRef.current?.showPicker()}
+                />
+                <button
+                  type="button"
+                  className="calendar-btn"
+                  onClick={() => endPickerRef.current?.showPicker()}
+                  title="Open calendar"
+                >
+                  📅
+                </button>
+                <input
+                  ref={endPickerRef}
+                  type="date"
+                  min={todayISO}
+                  style={{ position: "absolute", opacity: 0, pointerEvents: "none", width: 0, height: 0 }}
+                  onChange={(e) => e.target.value && setEndDate(toDisplay(e.target.value))}
+                />
+              </div>
             </div>
           </div>
 
@@ -256,7 +294,7 @@ export default function CreateTrip() {
               ))}
             </div>
           </div>
-          
+
           <button type="button" id="generate-btn" onClick={handleSubmit} disabled={loading}>
             {t("generateBtn")}
           </button>

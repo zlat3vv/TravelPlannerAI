@@ -10,10 +10,11 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@prisma/adapter-mariadb": "^7.8.0",
     "@prisma/client": "^7.8.0",
-    "@prisma/extension-accelerate": "^3.0.1",
     "axios": "^1.16.0",
     "bcryptjs": "^3.0.3",
+    "mariadb": "^3.5.2",
     "next": "16.2.6",
     "next-auth": "^4.24.14",
     "react": "19.2.4",
