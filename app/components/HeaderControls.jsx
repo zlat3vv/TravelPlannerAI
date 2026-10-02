@@ -12,7 +12,7 @@ export default function HeaderControls() {
         onClick={toggleTheme} 
         style={{
           background: "var(--glass)",
-          border: "1px solid var(--border)",
+          border: "1px solid var(--glass-border)",
           borderRadius: "50%",
           width: "36px",
           height: "36px",
@@ -34,7 +34,7 @@ export default function HeaderControls() {
         onChange={(e) => setLang(e.target.value)}
         style={{
           background: "var(--glass)",
-          border: "1px solid var(--border)",
+          border: "1px solid var(--glass-border)",
           borderRadius: "20px",
           padding: "6px 12px",
           color: "var(--text)",

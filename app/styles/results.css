@@ -1,16 +1,6 @@
-.page-bg {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.6), transparent 60%),
-        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.3), transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-}
-
-html.dark .page-bg {
-    background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.05), transparent 60%),
-        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02), transparent 50%);
-}
+/* ──────────────────────────────────────────
+   RESULTS PAGE SPECIFIC STYLES
+────────────────────────────────────────── */
 
 .top-nav {
     position: sticky;
@@ -19,436 +9,324 @@ html.dark .page-bg {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 32px;
+    padding: 1rem 2rem;
     background: var(--glass-nav);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
-
-html.dark .top-nav { box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3); }
 
 .back-btn,
 .logout-btn {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     text-decoration: none;
-    padding: 8px 18px;
-    border-radius: 30px;
-    transition: all 0.25s ease;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--border-radius-full);
+    transition: var(--transition-normal);
 }
 
 .back-btn {
-    color: var(--muted);
-    background: rgba(0, 0, 0, 0.06);
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
 }
-
-html.dark .back-btn { background: rgba(255, 255, 255, 0.1); color: var(--text); }
 
 .back-btn:hover {
-    background: rgba(0, 0, 0, 0.1);
-    color: var(--text);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-3px);
 }
-
-html.dark .back-btn:hover { background: rgba(255, 255, 255, 0.2); }
 
 .nav-logo {
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--text);
-}
-
-.logout-btn {
-    color: #ff6b6b;
-    background: rgba(255, 107, 107, 0.1);
-}
-
-.logout-btn:hover {
-    background: rgba(255, 107, 107, 0.2);
+    font-weight: 800;
+    font-size: 1.25rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
 #loading-screen {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: calc(100vh - 60px);
-    position: relative;
-    z-index: 10;
+    min-height: calc(100vh - 80px);
 }
 
 .loading-card {
     text-align: center;
     background: var(--glass);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 60px 80px;
-    box-shadow: var(--shadow);
-}
-
-.pulse-circles {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 20px;
-}
-
-.circle {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: var(--bg-gradient);
-    opacity: 0.2;
-    animation: pulse 1.8s ease-in-out infinite;
-}
-
-.c2 { animation-delay: 0.4s; }
-.c3 { animation-delay: 0.8s; }
-
-@keyframes pulse {
-    0%, 100% { transform: scale(0.6); opacity: 0.2; }
-    50% { transform: scale(1.1); opacity: 0.5; }
-}
-
-.plane-icon {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    display: block;
-    animation: float 2s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.loading-card h2 {
-    font-size: 1.4rem;
-    color: var(--text);
-    font-weight: 600;
+    backdrop-filter: blur(24px);
+    border-radius: var(--border-radius-lg);
+    padding: 4rem 5rem;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glow);
 }
 
 .trip-header {
     position: relative;
     z-index: 1;
-    padding: 60px 32px 40px;
+    padding: 4rem 2rem 3rem;
     text-align: center;
-}
-
-.header-content {
-    max-width: 800px;
-    margin: 0 auto;
 }
 
 .destination-badge {
     display: inline-block;
-    background: var(--glass-strong);
-    backdrop-filter: blur(10px);
-    padding: 6px 18px;
-    border-radius: 30px;
+    background: rgba(139, 92, 246, 0.15);
+    padding: 0.5rem 1.5rem;
+    border-radius: var(--border-radius-full);
     font-weight: 600;
     font-size: 0.95rem;
-    margin-bottom: 16px;
-    color: var(--muted);
-    border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
 }
 
 .trip-header h1 {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 800;
-    color: #fff;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-    margin-bottom: 20px;
-    line-height: 1.2;
-}
-
-html.dark .trip-header h1 {
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(to right, var(--text), var(--primary));
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
 }
 
 .trip-meta-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 0.75rem;
     justify-content: center;
 }
 
 .meta-chip {
-    background: var(--glass-nav);
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    padding: 8px 18px;
-    border-radius: 30px;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--border-radius-full);
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--text);
-    border: 1px solid var(--border);
+    border: 1px solid var(--glass-border);
 }
 
 .tabs-container {
     position: sticky;
-    top: 61px;
+    top: 70px;
     z-index: 90;
-    padding: 0 32px;
+    padding: 0 2rem;
     background: var(--glass-nav);
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--glass-border);
 }
 
 .tabs {
     display: flex;
-    gap: 4px;
+    gap: 0.5rem;
     max-width: 900px;
     margin: 0 auto;
-    padding: 12px 0;
+    padding: 1rem 0;
 }
 
 .tab {
     flex: 1;
-    padding: 12px 24px;
+    padding: 0.75rem 1.5rem;
     border: none;
-    border-radius: 12px;
+    border-radius: var(--border-radius-md);
     background: transparent;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
+    font-family: inherit;
+    font-size: 1rem;
     font-weight: 600;
-    color: var(--text);
-    opacity: 0.8;
+    color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: var(--transition-normal);
 }
 
 .tab:hover {
-    background: rgba(255, 255, 255, 0.2);
-    opacity: 1;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text);
 }
-
-html.dark .tab:hover { background: rgba(255, 255, 255, 0.1); }
 
 .tab.active {
-    background: var(--glass-strong);
+    background: rgba(255,255,255,0.1);
     color: var(--text);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    opacity: 1;
+    box-shadow: inset 0 -2px 0 var(--primary);
 }
-
-html.dark .tab.active { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
 
 .section {
     position: relative;
     z-index: 1;
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 24px 80px;
+    padding: 3rem 1.5rem 5rem;
 }
 
 .day-block {
-    margin-bottom: 50px;
-    animation: fadeUp 0.4s ease both;
-}
-
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    margin-bottom: 4rem;
 }
 
 .day-header {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 20px;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
 .day-number {
-    background: var(--bg-gradient);
+    background: var(--accent-gradient);
     color: white;
     font-weight: 700;
-    font-size: 1rem;
-    padding: 8px 22px;
-    border-radius: 30px;
-    box-shadow: 0 4px 15px rgba(253, 160, 133, 0.4);
-    white-space: nowrap;
+    font-size: 1.1rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: var(--border-radius-full);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
 }
 
 .day-date {
-    font-size: 0.9rem;
-    color: var(--text);
+    font-size: 0.95rem;
+    color: var(--text-muted);
     font-weight: 500;
-    background: var(--glass-nav);
-    padding: 6px 16px;
-    border-radius: 20px;
-    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.4rem 1rem;
+    border-radius: var(--border-radius-full);
+    border: 1px solid var(--glass-border);
 }
 
 .activities-row {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
 }
 
 .activity-card {
     background: var(--glass);
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 16px;
+    border-radius: var(--border-radius-lg);
     overflow: hidden;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-bounce);
     display: flex;
     flex-direction: column;
 }
 
 .activity-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-glow);
+    border-color: rgba(139, 92, 246, 0.3);
 }
-
-html.dark .activity-card:hover { box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6); }
 
 .card-photo {
     width: 100%;
-    height: 180px;
+    height: 200px;
     overflow: hidden;
-    background: var(--bg-gradient);
+    background: rgba(0,0,0,0.2);
 }
 
 .card-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .activity-card:hover .card-photo img {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .card-body {
-    padding: 16px 18px 20px;
+    padding: 1.5rem;
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
 .card-title {
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 8px;
-    line-height: 1.3;
+    margin-bottom: 0.75rem;
 }
 
 .card-desc {
-    font-size: 0.875rem;
-    color: var(--muted);
+    font-size: 0.95rem;
+    color: var(--text-muted);
     line-height: 1.6;
+    margin-bottom: 1.5rem;
     flex: 1;
-    margin-bottom: 12px;
 }
 
 .card-link {
     display: inline-flex;
     align-items: center;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--primary);
-    text-decoration: none;
-    transition: gap 0.2s ease;
-    gap: 4px;
-    margin-top: auto;
+    transition: var(--transition-normal);
 }
 
 .card-link:hover {
-    gap: 8px;
-    filter: brightness(0.9);
+    color: var(--primary-hover);
+    text-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
 }
 
 .hotels-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 28px;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
 }
 
 .hotel-card {
     background: var(--glass);
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 20px;
+    border-radius: var(--border-radius-lg);
     overflow: hidden;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    animation: fadeUp 0.4s ease both;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-bounce);
 }
 
 .hotel-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.13);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-glow);
+    border-color: rgba(236, 72, 153, 0.3);
 }
 
-html.dark .hotel-card:hover { box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6); }
-
-.hotel-photo {
+.hotel-photo, .hotel-photo-placeholder {
     width: 100%;
-    height: 220px;
+    height: 250px;
     overflow: hidden;
-    background: var(--bg-gradient);
+    background: rgba(0,0,0,0.3);
 }
 
 .hotel-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hotel-card:hover .hotel-photo img {
-    transform: scale(1.05);
-}
-
-.hotel-photo-placeholder {
-    width: 100%;
-    height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    background: var(--bg-gradient);
+    transform: scale(1.1);
 }
 
 .hotel-body {
-    padding: 22px 24px 26px;
+    padding: 1.5rem;
 }
 
 .hotel-name {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 10px;
+    margin-bottom: 0.75rem;
 }
 
 .hotel-desc {
-    font-size: 0.9rem;
-    color: var(--muted);
+    font-size: 0.95rem;
+    color: var(--text-muted);
     line-height: 1.6;
-    margin-bottom: 16px;
-}
-
-@media (max-width: 768px) {
-    .top-nav { padding: 12px 16px; flex-wrap: wrap; gap: 10px; justify-content: center; }
-    .nav-logo { display: none; }
-    .trip-header { padding: 40px 16px 20px; }
-    .tabs-container { padding: 0 10px; top: 0; position: relative; } /* Remove sticky on mobile to save space */
-    .section { padding: 30px 16px 60px; }
-    .activities-row { grid-template-columns: 1fr; }
-    .hotels-grid { grid-template-columns: 1fr; }
-    .loading-card { padding: 40px 20px; width: 90%; }
-    .tab { font-size: 0.85rem; padding: 10px 12px; }
-    
-    .trip-header h1 { font-size: 1.5rem; }
-    .meta-chip { font-size: 0.8rem; padding: 6px 12px; }
+    margin-bottom: 1.5rem;
 }

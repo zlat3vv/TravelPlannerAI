@@ -3,17 +3,22 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
+import { useSession, signOut } from "next-auth/react";
+import Link from "next/link";
 import { useLanguage } from "../contexts/LanguageContext";
 import HeaderControls from "../components/HeaderControls";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "../styles/create.css";
 
 export default function CreateTrip() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const { t, lang } = useLanguage();
 
   const [destination, setDestination] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [budget, setBudget] = useState("");
   const [people, setPeople] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,17 +29,21 @@ export default function CreateTrip() {
   const startPickerRef = useRef(null);
   const endPickerRef = useRef(null);
 
-  // Helpers: convert between dd.mm.yyyy (display) and yyyy-mm-dd (ISO)
-  const toISO = (ddmmyyyy) => {
-    const [d, m, y] = ddmmyyyy.split(".");
+  const toISO = (dateObj) => {
+    if (!dateObj) return "";
+    const y = dateObj.getFullYear();
+    const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const d = String(dateObj.getDate()).padStart(2, "0");
     return `${y}-${m}-${d}`;
-  };
-  const toDisplay = (iso) => {
-    const [y, m, d] = iso.split("-");
-    return `${d}.${m}.${y}`;
   };
 
   const todayISO = new Date().toISOString().split("T")[0];
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
 
   useEffect(() => {
     const today = new Date();
@@ -42,8 +51,11 @@ export default function CreateTrip() {
     tomorrow.setDate(today.getDate() + 1);
     const tomorrowISO = tomorrow.toISOString().split("T")[0];
 
-    if (!startDate) setStartDate(toDisplay(tomorrowISO));
-    if (!endDate) setEndDate(toDisplay(tomorrowISO));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!startDate) setStartDate(tomorrow);
+     
+    if (!endDate) setEndDate(tomorrow);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleScriptLoad = () => {
@@ -104,14 +116,13 @@ export default function CreateTrip() {
         throw new Error(err.error || `Server error: ${response.status}`);
       }
 
-      const tripData = await response.json();
-
-      sessionStorage.setItem("tripData", JSON.stringify(tripData));
-      sessionStorage.setItem(
-        "tripMeta",
-        JSON.stringify({ destination: finalDest, startDate: toISO(startDate), endDate: toISO(endDate), budget, people })
-      );
-      router.push("/results");
+      const responseData = await response.json();
+      
+      if (responseData.tripId) {
+        router.push(`/trips/${responseData.tripId}`);
+      } else {
+        throw new Error("Failed to get trip ID from response");
+      }
     } catch (error) {
       console.error("Error:", error);
       setErrorMsg(`${t("errorUnexpected")}: ${error.message}`);
@@ -146,10 +157,26 @@ export default function CreateTrip() {
       )}
 
       <div className="main-container">
-        <div className="create-header">
-          <HeaderControls />
-        </div>
-        <h1>{t("createTitle")}</h1>
+          <div className="create-header">
+            <Link href="/trips" className="trips-btn" style={{ 
+              textDecoration: "none", color: "var(--text)", fontWeight: "600", fontSize: "0.9rem",
+              background: "var(--glass)", padding: "8px 16px", borderRadius: "20px", border: "1px solid var(--border)"
+            }}>
+              🗺️ My Trips
+            </Link>
+            <HeaderControls />
+            <button 
+              onClick={() => signOut({ callbackUrl: "/login" })} 
+              className="btn-logout"
+            >
+              {t("navLogout")}
+            </button>
+          </div>
+
+          <h1>
+            <span>{t("createTitle")}</span>
+            <span style={{ color: "initial", WebkitTextFillColor: "initial" }}> ⛺ 🌴</span>
+          </h1>
         <p>{t("createSubtitle")}</p>
 
         <form id="trip-form" onSubmit={(e) => e.preventDefault()}>
@@ -171,61 +198,35 @@ export default function CreateTrip() {
             <div className="date-options">
               <h4><strong>{t("startDateLabel")}</strong></h4>
               <div className="date-input-wrapper">
-                <input
-                  id="start-date"
-                  name="start-date"
-                  type="text"
-                  placeholder="dd.mm.yyyy"
-                  value={startDate}
-                  readOnly
-                  style={{ cursor: "pointer" }}
-                  onClick={() => startPickerRef.current?.showPicker()}
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  selectsStart
+                  startDate={startDate}
+                  endDate={endDate}
+                  minDate={new Date()}
+                  dateFormat="dd.MM.yyyy"
+                  className="input-premium"
+                  placeholderText="dd.mm.yyyy"
                 />
-                <button
-                  type="button"
-                  className="calendar-btn"
-                  onClick={() => startPickerRef.current?.showPicker()}
-                  title="Open calendar"
-                >
-                  📅
-                </button>
-                <input
-                  ref={startPickerRef}
-                  type="date"
-                  min={todayISO}
-                  style={{ position: "absolute", opacity: 0, pointerEvents: "none", width: 0, height: 0 }}
-                  onChange={(e) => e.target.value && setStartDate(toDisplay(e.target.value))}
-                />
+                <span className="calendar-icon">📅</span>
               </div>
             </div>
             <div className="date-options">
               <h4><strong>{t("endDateLabel")}</strong></h4>
               <div className="date-input-wrapper">
-                <input
-                  id="end-date"
-                  name="end-date"
-                  type="text"
-                  placeholder="dd.mm.yyyy"
-                  value={endDate}
-                  readOnly
-                  style={{ cursor: "pointer" }}
-                  onClick={() => endPickerRef.current?.showPicker()}
+                <DatePicker
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                  selectsEnd
+                  startDate={startDate}
+                  endDate={endDate}
+                  minDate={startDate || new Date()}
+                  dateFormat="dd.MM.yyyy"
+                  className="input-premium"
+                  placeholderText="dd.mm.yyyy"
                 />
-                <button
-                  type="button"
-                  className="calendar-btn"
-                  onClick={() => endPickerRef.current?.showPicker()}
-                  title="Open calendar"
-                >
-                  📅
-                </button>
-                <input
-                  ref={endPickerRef}
-                  type="date"
-                  min={todayISO}
-                  style={{ position: "absolute", opacity: 0, pointerEvents: "none", width: 0, height: 0 }}
-                  onChange={(e) => e.target.value && setEndDate(toDisplay(e.target.value))}
-                />
+                <span className="calendar-icon">📅</span>
               </div>
             </div>
           </div>
@@ -295,7 +296,7 @@ export default function CreateTrip() {
             </div>
           </div>
 
-          <button type="button" id="generate-btn" onClick={handleSubmit} disabled={loading}>
+          <button type="button" id="generate-btn" className="btn-primary" onClick={handleSubmit} disabled={loading} style={{ margin: "3rem auto 0", display: "block" }}>
             {t("generateBtn")}
           </button>
         </form>

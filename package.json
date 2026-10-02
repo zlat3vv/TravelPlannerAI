@@ -6,18 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "prisma generate"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/adapter-mariadb": "^7.8.0",
-    "@prisma/client": "^7.8.0",
     "axios": "^1.16.0",
     "bcryptjs": "^3.0.3",
+    "date-fns": "^4.4.0",
     "mariadb": "^3.5.2",
     "next": "16.2.6",
     "next-auth": "^4.24.14",
     "react": "19.2.4",
+    "react-datepicker": "^9.1.0",
     "react-dom": "19.2.4"
   },
   "devDependencies": {
@@ -25,7 +24,6 @@
     "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
-    "prisma": "^7.8.0",
     "tailwindcss": "^4"
   }
 }

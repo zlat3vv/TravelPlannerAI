@@ -1,0 +1,110 @@
+.trips-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.trips-container h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  margin-bottom: 2.5rem;
+  background: linear-gradient(to right, var(--text), var(--primary));
+  -webkit-background-clip: text;
+  color: transparent;
+  text-align: center;
+}
+
+.no-trips {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-sm);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.no-trips p {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.create-new-btn {
+  display: inline-block;
+  background: var(--accent-gradient);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: var(--border-radius-full);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: var(--transition-bounce);
+  box-shadow: var(--shadow-md);
+}
+
+.create-new-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: var(--shadow-glow);
+}
+
+.trips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.trip-card {
+  display: block;
+  text-decoration: none;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  color: var(--text);
+  backdrop-filter: blur(16px);
+  transition: var(--transition-bounce);
+  box-shadow: var(--shadow-sm);
+}
+
+.trip-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(139, 92, 246, 0.4);
+  box-shadow: var(--shadow-glow);
+}
+
+.trip-card-header {
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.trip-card-header h3 {
+  font-size: 1.25rem;
+  margin: 0;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.trip-card-body p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.trip-date {
+  font-size: 0.85rem !important;
+  color: var(--text-muted);
+  margin-top: 1.5rem !important;
+  display: block;
+  text-align: right;
+  opacity: 0.7;
+}

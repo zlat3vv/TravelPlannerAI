@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]/route";
+import { db } from "../../../lib/db";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
@@ -37,6 +40,11 @@ async function verifyUrl(url) {
 
 export async function POST(req) {
     try {
+        const session = await getServerSession(authOptions);
+        if (!session) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
         const body = await req.json();
         const { destination, startDate, endDate, budget, people, language = 'bg' } = body;
 
@@ -99,7 +107,7 @@ Rules:
 - All descriptions must be in ${targetLang}
 - Include exactly ${days} day objects
 - Include 3-5 activities per day
-- Include 3 hotel suggestions
+- Include 3 hotel or villa suggestions strictly located in ${placeName}
 - For activity URLs: use ONLY the official website of the attraction (e.g. the museum's own site, national park site, etc.). Never use Google Maps, TripAdvisor, Wikipedia, or redirect links.
 - For hotel URLs: use ONLY the hotel's own official website (e.g. https://www.hotelname.com). Never use Booking.com, Hotels.com, Expedia, or aggregator links.
 - Every URL must be a real, currently live website that you are certain exists. If you are not 100% sure the URL works, use null instead of guessing.
@@ -150,7 +158,18 @@ Rules:
 
         await Promise.all(tasks);
 
-        return NextResponse.json(tripData);
+        const result = await db.query('INSERT INTO trips (userId, destination, startDate, endDate, budget, people, tripData) VALUES (?, ?, ?, ?, ?, ?, ?)', [
+            parseInt(session.user.id),
+            destination,
+            startDate,
+            endDate,
+            budget,
+            people,
+            JSON.stringify(tripData)
+        ]);
+        const savedTripId = typeof result.insertId === 'bigint' ? Number(result.insertId) : result.insertId;
+
+        return NextResponse.json({ tripId: savedTripId, ...tripData });
 
     } catch (error) {
         console.error('Error:', error.response?.data || error.message);

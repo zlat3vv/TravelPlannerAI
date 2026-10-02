@@ -6,14 +6,14 @@
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![Prisma](https://img.shields.io/badge/Prisma-5-2D3748?logo=prisma&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?logo=mysql&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-412991?logo=openai&logoColor=white)
+![Gemini](https://img.shields.io/badge/Google_Gemini-2.0_Flash-8E75B2?logo=googlegemini&logoColor=white)
 ![Google Maps](https://img.shields.io/badge/Google-Places%20API-4285F4?logo=googlemaps&logoColor=white)
 
 ---
 
 ## 📖 Overview
 
-TravelPlannerAI lets authenticated users enter a destination, travel dates, budget, and number of travelers — then instantly generates a structured trip plan powered by **GPT-4 Turbo**. Each itinerary includes:
+TravelPlannerAI lets authenticated users enter a destination, travel dates, budget, and number of travelers — then instantly generates a structured trip plan powered by **Google Gemini 2.0 Flash Lite**. Each itinerary includes:
 
 - 📅 A **day-by-day schedule** with 3–5 activities per day
 - 🏨 **Hotel suggestions** with official website links
@@ -27,7 +27,7 @@ TravelPlannerAI lets authenticated users enter a destination, travel dates, budg
 
 | Feature | Description |
 |---|---|
-| 🤖 AI Trip Generation | GPT-4 Turbo crafts detailed, budget-aware itineraries |
+| 🤖 AI Trip Generation | Gemini 2.0 Flash crafts detailed, budget-aware itineraries |
 | 🗺️ Google Places Integration | Real photos for every activity and hotel |
 | 🔐 Authentication | Secure login & registration with NextAuth + bcrypt |
 | 🌍 Internationalization | UI and AI responses in BG, EN, DE, RU |
@@ -44,7 +44,7 @@ TravelPlannerAI lets authenticated users enter a destination, travel dates, budg
 | **UI** | React 19, Vanilla CSS |
 | **Auth** | [NextAuth.js v4](https://next-auth.js.org/) |
 | **Database** | MySQL via [Prisma ORM](https://www.prisma.io/) |
-| **AI** | [OpenAI GPT-4 Turbo](https://platform.openai.com/docs/) |
+| **AI** | [Google Gemini](https://ai.google.dev/) |
 | **Maps & Photos** | [Google Places API](https://developers.google.com/maps/documentation/places/web-service) |
 | **HTTP Client** | [Axios](https://axios-http.com/) |
 | **Password Hashing** | bcryptjs |
@@ -55,7 +55,7 @@ TravelPlannerAI lets authenticated users enter a destination, travel dates, budg
 
 - **Node.js** v18+
 - **MySQL** server (XAMPP recommended)
-- **OpenAI API key** — [Get one here](https://platform.openai.com/api-keys)
+- **Gemini API key** — [Get one from Google AI Studio](https://aistudio.google.com/app/apikey)
 - **Google API key** with the **Places API** enabled — [Google Cloud Console](https://console.cloud.google.com/)
 
 ---
@@ -87,8 +87,8 @@ DATABASE_URL="mysql://root:@localhost:3306/travelplannerai"
 NEXTAUTH_SECRET="your-super-secret-key"
 NEXTAUTH_URL="http://localhost:3000"
 
-# OpenAI
-OPENAI_API_KEY="sk-..."
+# Google Gemini
+GEMINI_API_KEY="AIza..."
 
 # Google Places
 GOOGLE_API_KEY="AIza..."
@@ -216,7 +216,7 @@ User submits trip form
   Google Places → resolve destination name
         │
         ▼
-  OpenAI GPT-4 Turbo → generate itinerary JSON
+  Google Gemini → generate itinerary JSON
         │
         ▼
   Google Places API → fetch photos for each activity & hotel

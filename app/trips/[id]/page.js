@@ -1,11 +1,13 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useLanguage } from "../contexts/LanguageContext";
-import HeaderControls from "../components/HeaderControls";
-import "../styles/results.css";
+import { useLanguage } from "../../contexts/LanguageContext";
+import HeaderControls from "../../components/HeaderControls";
+import "../../styles/results.css";
 
 function formatDate(dateStr) {
   const d = new Date(dateStr + 'T00:00:00');
@@ -15,29 +17,54 @@ function formatDate(dateStr) {
   return `${day}.${month}.${year}`;
 }
 
-export default function Results() {
-
+export default function TripDetails({ params }) {
+  const resolvedParams = use(params);
   const router = useRouter();
+  const { data: session, status } = useSession();
   const { t, lang } = useLanguage();
 
   const [trip, setTrip] = useState(null);
   const [meta, setMeta] = useState(null);
   const [activeTab, setActiveTab] = useState("itinerary");
-
-
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const tripDataRaw = sessionStorage.getItem("tripData");
-    const tripMetaRaw = sessionStorage.getItem("tripMeta");
-
-    if (!tripDataRaw) {
-      router.push("/create");
+    if (status === "unauthenticated") {
+      router.push("/login");
       return;
     }
 
-    setTrip(JSON.parse(tripDataRaw));
-    setMeta(tripMetaRaw ? JSON.parse(tripMetaRaw) : {});
-  }, [router]);
+    if (status === "authenticated") {
+      fetch(`/api/trips/${resolvedParams.id}`)
+        .then(res => {
+          if (!res.ok) throw new Error("Failed to load trip");
+          return res.json();
+        })
+        .then(data => {
+          setTrip(data.tripData);
+          setMeta({
+            destination: data.destination,
+            startDate: data.startDate,
+            endDate: data.endDate,
+            budget: data.budget,
+            people: data.people
+          });
+        })
+        .catch(err => {
+          console.error(err);
+          setError("Failed to load trip or unauthorized");
+        });
+    }
+  }, [status, resolvedParams.id, router]);
+
+  if (error) {
+    return (
+      <div style={{ textAlign: "center", padding: "50px", color: "var(--text)" }}>
+        <h2>{error}</h2>
+        <Link href="/trips" style={{ color: "#3182ce" }}>Back to Trips</Link>
+      </div>
+    );
+  }
 
   if (!trip || !meta) {
     return (
@@ -62,11 +89,11 @@ export default function Results() {
       <div className="page-bg"></div>
 
       <nav className="top-nav">
-        <Link href="/create" className="back-btn">
+        <Link href="/trips" className="back-btn">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
-          {t("navNewPlan")}
+          Back to Trips
         </Link>
         <div className="nav-logo">✈️ TravelPlannerAI</div>
         <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
