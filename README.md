@@ -4,16 +4,15 @@
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.2-black?logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
-![Prisma](https://img.shields.io/badge/Prisma-5-2D3748?logo=prisma&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?logo=mysql&logoColor=white)
-![Gemini](https://img.shields.io/badge/Google_Gemini-2.0_Flash-8E75B2?logo=googlegemini&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-Database-003545?logo=mariadb&logoColor=white)
+![Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Flash-8E75B2?logo=googlegemini&logoColor=white)
 ![Google Maps](https://img.shields.io/badge/Google-Places%20API-4285F4?logo=googlemaps&logoColor=white)
 
 ---
 
 ## 📖 Overview
 
-TravelPlannerAI lets authenticated users enter a destination, travel dates, budget, and number of travelers — then instantly generates a structured trip plan powered by **Google Gemini 2.0 Flash Lite**. Each itinerary includes:
+TravelPlannerAI lets authenticated users enter a destination, travel dates, budget, and number of travelers — then instantly generates a structured trip plan powered by **Google Gemini 2.5 Flash**. Each itinerary includes:
 
 - 📅 A **day-by-day schedule** with 3–5 activities per day
 - 🏨 **Hotel suggestions** with official website links
@@ -27,7 +26,7 @@ TravelPlannerAI lets authenticated users enter a destination, travel dates, budg
 
 | Feature | Description |
 |---|---|
-| 🤖 AI Trip Generation | Gemini 2.0 Flash crafts detailed, budget-aware itineraries |
+| 🤖 AI Trip Generation | Gemini 2.5 Flash crafts detailed, budget-aware itineraries |
 | 🗺️ Google Places Integration | Real photos for every activity and hotel |
 | 🔐 Authentication | Secure login & registration with NextAuth + bcrypt |
 | 🌍 Internationalization | UI and AI responses in BG, EN, DE, RU |
@@ -43,7 +42,7 @@ TravelPlannerAI lets authenticated users enter a destination, travel dates, budg
 | **Framework** | [Next.js 16](https://nextjs.org/) (App Router) |
 | **UI** | React 19, Vanilla CSS |
 | **Auth** | [NextAuth.js v4](https://next-auth.js.org/) |
-| **Database** | MySQL via [Prisma ORM](https://www.prisma.io/) |
+| **Database** | MariaDB via raw SQL (`mariadb` driver) |
 | **AI** | [Google Gemini](https://ai.google.dev/) |
 | **Maps & Photos** | [Google Places API](https://developers.google.com/maps/documentation/places/web-service) |
 | **HTTP Client** | [Axios](https://axios-http.com/) |
@@ -54,7 +53,7 @@ TravelPlannerAI lets authenticated users enter a destination, travel dates, budg
 ## 📦 Prerequisites
 
 - **Node.js** v18+
-- **MySQL** server (XAMPP recommended)
+- **MariaDB / MySQL** server (XAMPP recommended)
 - **Gemini API key** — [Get one from Google AI Studio](https://aistudio.google.com/app/apikey)
 - **Google API key** with the **Places API** enabled — [Google Cloud Console](https://console.cloud.google.com/)
 
@@ -96,23 +95,33 @@ GOOGLE_API_KEY="AIza..."
 
 ### 4. Set up the database
 
-Make sure your MySQL server is running, then run:
+Make sure your MariaDB/MySQL server is running, then run the following SQL commands to create the required tables in your `travelplannerai` database:
 
-```bash
-npx prisma db push
+```sql
+CREATE DATABASE IF NOT EXISTS travelplannerai;
+USE travelplannerai;
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE trips (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  destination VARCHAR(255) NOT NULL,
+  startDate VARCHAR(50) NOT NULL,
+  endDate VARCHAR(50) NOT NULL,
+  budget VARCHAR(50) NOT NULL,
+  people VARCHAR(50) NOT NULL,
+  tripData JSON NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+);
 ```
 
-This will create the `users` table automatically from the Prisma schema.
-
-### 5. Generate the Prisma client
-
-```bash
-npx prisma generate
-```
-
-> **Note:** This also runs automatically after `npm install` via the `postinstall` script.
-
-### 6. Start the development server
+### 5. Start the development server
 
 ```bash
 npm run dev
@@ -139,15 +148,15 @@ TravelPlannerAI/
 │   ├── create/                   # Trip creation page
 │   ├── login/                    # Login page
 │   ├── register/                 # Registration page
-│   ├── results/                  # Trip results display page
+│   ├── results/                  # Old results directory (deprecated)
 │   ├── styles/                   # Page-specific CSS modules
+│   ├── trips/                    # Dynamic trip details display page
 │   ├── globals.css               # Global CSS variables & base styles
 │   ├── layout.js                 # Root layout with providers
 │   └── providers.jsx             # SessionProvider wrapper
 ├── lib/
+│   ├── db.js                     # MariaDB connection pool
 │   └── translations.js           # UI string translations (BG/EN/DE/RU)
-├── prisma/
-│   └── schema.prisma             # Database schema (User model)
 ├── public/                       # Static assets
 ├── .env                          # Environment variables (not committed)
 ├── next.config.mjs
@@ -194,7 +203,7 @@ Generates a full trip plan. **Requires authentication.**
   "destination": "Paris",
   "startDate": "2026-06-01",
   "endDate": "2026-06-05",
-  "budget": "medium",
+  "budget": "moderate",
   "people": "2",
   "language": "en"
 }
@@ -238,7 +247,6 @@ User submits trip form
 | `npm run build` | Build for production |
 | `npm run start` | Run production build |
 | `npm run lint` | Run ESLint |
-| `npx prisma studio` | Open Prisma visual database browser |
 
 ---
 
