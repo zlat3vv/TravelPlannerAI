@@ -14,7 +14,7 @@
     "date-fns": "^4.4.0",
     "mariadb": "^3.5.2",
     "next": "16.2.6",
-    "next-auth": "^4.24.14",
+    "next-auth": "^4.24.15",
     "react": "19.2.4",
     "react-datepicker": "^9.1.0",
     "react-dom": "19.2.4"
