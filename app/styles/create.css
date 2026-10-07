@@ -1,6 +1,4 @@
-/* ──────────────────────────────────────────
-   LOADING OVERLAY
-────────────────────────────────────────── */
+
 #loading-overlay {
     position: fixed;
     inset: 0;
@@ -117,9 +115,7 @@
     100% { width: 95%; }
 }
 
-/* ──────────────────────────────────────────
-   MAIN CARD CONTAINER
-────────────────────────────────────────── */
+
 .main-container {
     max-width: 900px;
     margin: 2rem auto;
@@ -141,9 +137,7 @@
     background: var(--accent-gradient);
 }
 
-/* ──────────────────────────────────────────
-   HEADINGS / TEXT
-────────────────────────────────────────── */
+
 .create-header {
     display: flex;
     justify-content: flex-end;
@@ -172,9 +166,7 @@ h4 {
     margin-bottom: 1rem;
 }
 
-/* ──────────────────────────────────────────
-   SECTION GROUPS
-────────────────────────────────────────── */
+
 .location-options,
 .budget-options-container,
 .people-options-container {
@@ -198,9 +190,7 @@ h4 {
     max-width: 300px;
 }
 
-/* ──────────────────────────────────────────
-   INPUTS
-────────────────────────────────────────── */
+
 .date-input-wrapper {
     position: relative;
     width: 100%;
@@ -220,7 +210,7 @@ h4 {
     width: 100%;
 }
 
-/* React DatePicker Customization */
+
 .react-datepicker {
     font-family: inherit !important;
     background-color: var(--bg-secondary) !important;
@@ -310,9 +300,7 @@ select:focus {
     background: rgba(0,0,0,0.4);
 }
 
-/* ──────────────────────────────────────────
-   GOOGLE PLACES AUTOCOMPLETE
-────────────────────────────────────────── */
+
 .pac-container {
     background-color: var(--bg-secondary) !important;
     border: 1px solid var(--glass-border) !important;
@@ -355,9 +343,7 @@ select:focus {
     display: none !important;
 }
 
-/* ──────────────────────────────────────────
-   BUDGET & PEOPLE OPTIONS GRID
-────────────────────────────────────────── */
+
 .budget-options,
 .people-options {
     display: grid;
@@ -429,9 +415,7 @@ select:focus {
     line-height: 1.4;
 }
 
-/* ──────────────────────────────────────────
-   GENERATE BUTTON
-────────────────────────────────────────── */
+
 form > button {
     display: block;
     margin: 3rem auto 0;
@@ -441,9 +425,7 @@ form > button {
     font-weight: 700;
 }
 
-/* ──────────────────────────────────────────
-   STATUS / ERROR MESSAGE
-────────────────────────────────────────── */
+
 #status-message {
     margin-top: 2rem;
     padding: 1rem 1.5rem;

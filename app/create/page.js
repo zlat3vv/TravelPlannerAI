@@ -51,15 +51,14 @@ export default function CreateTrip() {
     tomorrow.setDate(today.getDate() + 1);
     const tomorrowISO = tomorrow.toISOString().split("T")[0];
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!startDate) setStartDate(tomorrow);
      
     if (!endDate) setEndDate(tomorrow);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const handleScriptLoad = () => {
-    if (typeof window.google === "undefined" || !window.google.maps) return;
+    if (typeof window.google === "undefined" || !window.google.maps || !window.google.maps.places) return;
 
     autocompleteRef.current = new window.google.maps.places.Autocomplete(
       inputRef.current,
@@ -181,7 +180,7 @@ export default function CreateTrip() {
 
         <form id="trip-form" onSubmit={(e) => e.preventDefault()}>
           <div className="location-options">
-            <h4><strong>{t("destLabel")}</strong></h4><br />
+            <h4><strong>{t("destLabel")}<span style={{ color: "red" }}> *</span></strong></h4><br />
             <input
               id="destination-input"
               type="text"
@@ -196,7 +195,7 @@ export default function CreateTrip() {
 
           <div className="date-row">
             <div className="date-options">
-              <h4><strong>{t("startDateLabel")}</strong></h4>
+              <h4><strong>{t("startDateLabel")}<span style={{ color: "red" }}> *</span></strong></h4>
               <div className="date-input-wrapper">
                 <DatePicker
                   selected={startDate}
@@ -213,7 +212,7 @@ export default function CreateTrip() {
               </div>
             </div>
             <div className="date-options">
-              <h4><strong>{t("endDateLabel")}</strong></h4>
+              <h4><strong>{t("endDateLabel")}<span style={{ color: "red" }}> *</span></strong></h4>
               <div className="date-input-wrapper">
                 <DatePicker
                   selected={endDate}
@@ -232,7 +231,7 @@ export default function CreateTrip() {
           </div>
 
           <div className="budget-options-container">
-            <h4><strong>{t("budgetLabel")}</strong></h4>
+            <h4><strong>{t("budgetLabel")}<span style={{ color: "red" }}> *</span></strong></h4>
             <div className="budget-options">
               {["cheap", "moderate", "luxury"].map((val) => (
                 <div className="budget-option" key={val}>
@@ -267,7 +266,7 @@ export default function CreateTrip() {
           </div>
 
           <div className="people-options-container">
-            <h4><strong>{t("peopleLabel")}</strong></h4>
+            <h4><strong>{t("peopleLabel")}<span style={{ color: "red" }}> *</span></strong></h4>
             <div className="people-options">
               {[
                 { id: "solo", icon: "🧍", label: t("peopleSolo"), desc: t("peopleSoloDesc") },

@@ -1,6 +1,6 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
 
+import Image from "next/image";
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -160,7 +160,7 @@ export default function TripDetails({ params }) {
                       <div className="activity-card" key={aidx}>
                         {activity.photo && (
                           <div className="card-photo">
-                            <img src={activity.photo} alt={activity.name} />
+                            <Image src={activity.photo} alt={activity.name} width={800} height={400} />
                           </div>
                         )}
                         <div className="card-body">
@@ -188,7 +188,7 @@ export default function TripDetails({ params }) {
                 <div className="hotel-card" key={idx}>
                   {hotel.photo ? (
                     <div className="hotel-photo">
-                      <img src={hotel.photo} alt={hotel.name} />
+                      <Image src={hotel.photo} alt={hotel.name} width={800} height={400} />
                     </div>
                   ) : (
                     <div className="hotel-photo-placeholder">🏨</div>

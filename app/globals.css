@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* Premium Light Mode Core Variables */
+  
   --bg-color: #f8fafc;
   --bg-secondary: #ffffff;
   
@@ -37,7 +37,7 @@
 }
 
 .dark {
-  /* Premium Dark Mode Core Variables */
+  
   --bg-color: #09090b;
   --bg-secondary: #18181b;
   
@@ -82,7 +82,7 @@ body {
   color: white;
 }
 
-/* Scrollbar */
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -98,7 +98,7 @@ body {
   background: #52525b;
 }
 
-/* Typography elements */
+
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   font-weight: 700;
@@ -111,7 +111,7 @@ a {
   text-decoration: none;
 }
 
-/* Base button */
+
 .btn-primary {
   background: var(--accent-gradient);
   color: white;
@@ -152,7 +152,7 @@ a {
   transform: translateY(1px) scale(0.98);
 }
 
-/* Layout Utilities */
+
 .glass-panel {
   background: var(--glass);
   backdrop-filter: blur(16px);
@@ -170,7 +170,7 @@ a {
   display: inline-block;
 }
 
-/* Form inputs */
+
 .input-premium {
   width: 100%;
   background: rgba(255,255,255,0.05);
@@ -194,7 +194,7 @@ a {
   color: var(--text-muted);
 }
 
-/* General Layouts */
+
 .page-container {
   max-width: 1200px;
   margin: 0 auto;
